@@ -1,0 +1,24 @@
+#####################################################################################
+#                                   MIGRATION
+#####################################################################################
+
+############################ Migration of Incoming traffic  ############################
+
+az network lb rule update -g mremini-vmss322-19082021 --lb-name vmss332-external-load-balancer --name vmss332-external-load-balancer-rule-http --backend-pool-name fgt-aa-backendpool
+az network lb rule update -g mremini-vmss322-19082021 --lb-name vmss332-external-load-balancer --name vmss332-external-load-balancer-rule-https --backend-pool-name fgt-aa-backendpool
+
+############################ Migration of Outgoing traffic  ############################
+
+az network lb rule update -g mremini-vmss322-19082021 --lb-name vmss332-internal-load-balancer --name vmss332-internal-load-balancer-rule-subnet2 --backend-pool-name fgt-aa-backendpool
+
+
+
+
+
+#####################################################################################
+#                                   ROLLBACK
+#####################################################################################
+az network lb rule update -g mremini-vmss322-19082021 --lb-name vmss332-external-load-balancer --name vmss332-external-load-balancer-rule-http --backend-pool-name vmss332-backend-ip-pool-subnet-1
+az network lb rule update -g mremini-vmss322-19082021 --lb-name vmss332-external-load-balancer --name vmss332-external-load-balancer-rule-https --backend-pool-name vmss332-backend-ip-pool-subnet-1
+
+az network lb rule update -g mremini-vmss322-19082021 --lb-name vmss332-internal-load-balancer --name vmss332-internal-load-balancer-rule-subnet2 --backend-pool-name vmss332-backend-ip-pool-subnet-2
